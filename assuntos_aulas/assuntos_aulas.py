@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from os.path import isfile
+from os.path import isfile, exists
 import re
 import sys
 """Script simples que para cada pasta de um diretório vai até o arquivo
@@ -29,14 +29,16 @@ if len(sys.argv[0:]) == 1:
 
 else:
     path = sys.argv[1].strip()
-#path = os.path.abspath(os.curdir)
-#diretorio = [item for item in os.listdir(path) if not isfile(item)]
+
+if os.path.exists(f"{path}/assuntos.txt"):
+    print("Arquivo assuntos.txt antigo apagado.")
+    os.remove(f"{path}/assuntos.txt")
 
 diretorio = [item for item in os.listdir(path)]
 diretorio.sort()
 #breakpoint()
-print(diretorio)
-print()
+#print(diretorio)
+#print()
 
 subdiretorios = []
 for dir_ in diretorio:
