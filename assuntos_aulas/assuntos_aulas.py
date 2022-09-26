@@ -12,10 +12,10 @@ Exemplo:
 'aula 12 vedações'.
 Script busca pela palavra 'aula' dentro do arquivo.
 Salva um arquivo '.txt' na pasta "mãe" (a que foi passada na chamada)
-Executar na pasta em que o arquivo .py está.
+Executar na pasta da matéria, onde estão as subpastas com as aulas
 
 >>>
-./assuntos_aulas.py /home/thiagorbm/Documents/concursoUnDF/grancursos/legislacaoServidores/ 
+./assuntos_aulas.py/home/thiagorbm/Documents/concursoUnDF/grancursos/legislacaoServidores/ 
 
 Caso o caminho da pasta "mãe" não seja passado será perguntado:
 'Indique o caminho da pasta em que o script deve criar o sumário de aulas:'
