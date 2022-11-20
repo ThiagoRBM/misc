@@ -2,11 +2,11 @@
 
 """Script simples para criar um arquivo txt e um pdf juntando as anotações de aula que fiz em arquivo separados.
 Espera que dentro de uma pasta existam subpastas, uma para cada aula, com um
-arquivo 'anotacoes.txt'. 
+arquivo 'anotacoes.txt'.
 Executar na pasta da matéria, onde estão as subpastas com as aulas.
 """
 
-from fpdf import FPDF
+#from fpdf import FPDF
 import sys
 import os
 import math
@@ -21,6 +21,7 @@ if len(sys.argv[0:]) == 1:
 diretorio = [item for item in os.listdir(path)]
 diretorio.sort()
 
+
 #print(diretorio)
 
 arquivos = []
@@ -34,10 +35,18 @@ for d in diretorio:
 
 #print(arquivos)
 
+ordem_criacao = [(i, os.path.getctime(i)) for i in arquivos]
+ordem_criacao = sorted(
+    ordem_criacao,
+    key=lambda t: t[1],
+    reverse=False
+)
+
+#breakpoint()
 anotacoes = []
-for arq in arquivos:
+for arq in ordem_criacao:
     anotacoes.append(f"{'*' * 90}\n\n")
-    with open(arq) as txt:
+    with open(arq[0]) as txt:
         for linha in txt:
             anotacoes.append(linha)
             if "aula" in linha.lower():
@@ -54,6 +63,8 @@ with open("anotacoes_conteudo.txt", "w") as arq:
         if linha != "\n":
             arq.write(linha)
             form.append(linha)
+
+print("TXT CRIADO")
 
 # def quebra_linha(linha, caracteres):
 # """Funcao que quebra as linhas do arquivo .txt na quantidade
@@ -95,9 +106,10 @@ with open("anotacoes_conteudo.txt", "w") as arq:
 # #print(i)
 #breakpoint()
 
-pdf = FPDF()
-pdf.add_page()
-pdf.set_font("Arial", size=11)
+#  FAZER O PDF:
+# pdf = FPDF()
+# pdf.add_page()
+# pdf.set_font("Arial", size=11)
 
 ## LOOP para criar o pdf usando a funcao quebra_linha, que tinha feito
 #  antes de descobri a funcao da lib fpdf
@@ -109,9 +121,9 @@ pdf.set_font("Arial", size=11)
 # else:
 # pdf.cell(1, 5, txt=linha, ln=1)
 
-for linha in form:
-    pdf.multi_cell(h=5.0, align='L', w=0, txt=linha, border=0)
+# for linha in form:
+#     pdf.multi_cell(h=5.0, align='L', w=0, txt=linha, border=0)
 
-print("PDF CRIADO")
+# print("PDF CRIADO")
 
-pdf.output("anotacoes_conteudo.pdf")
+# pdf.output("anotacoes_conteudo.pdf")
