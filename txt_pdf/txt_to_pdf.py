@@ -60,70 +60,9 @@ with open("anotacoes_conteudo.txt", "w") as arq:
     # um pdf
     for linha in anotacoes:
         #print(linha)
-        if linha != "\n":
+        #arq.write(linha)
+        if linha != "\n\n":
             arq.write(linha)
             form.append(linha)
 
 print("TXT CRIADO")
-
-# def quebra_linha(linha, caracteres):
-# """Funcao que quebra as linhas do arquivo .txt na quantidade
-# de caracteres especificada.
-# Nao usei porque depois que a fiz, descobri que a lib fpdf
-# tem a funcao fpdf.multi_cell que quebra as linhas automaticamente
-# """
-# tamanho = len(linha)
-# #print(tamanho)
-# cortes = math.ceil(tamanho / caracteres)
-# n = 1
-# quebra = ""
-# pedacos = []
-# inicio = 0
-#
-# for corte in range(0, cortes):
-# #  calcula os cortes a serem feitos
-# fim = inicio + caracteres
-# pedacos.append([inicio, fim])
-# inicio = fim
-#
-# quebras = []
-# for pedaco in pedacos:
-# #  cria a lista com os cortes
-# inicio, fim = [*pedaco]
-# split = linha[inicio:fim]
-# quebras.append(split)
-# return quebras
-
-## loop para checar se a funcao funciona em todos os casos
-# for i, linha in enumerate(form):
-# print(linha)
-# if len(linha) > 79:
-# quebra_linha(linha, 79)
-# print(i)
-# print(linha)
-# else:
-# ...
-# #print(i)
-#breakpoint()
-
-#  FAZER O PDF:
-# pdf = FPDF()
-# pdf.add_page()
-# pdf.set_font("Arial", size=11)
-
-## LOOP para criar o pdf usando a funcao quebra_linha, que tinha feito
-#  antes de descobri a funcao da lib fpdf
-# for i, linha in enumerate(form):
-# if len(linha) > 100:
-# linha = quebra_linha(linha, 100)
-# for item in linha:
-# pdf.cell(1, 5, txt=item, ln=1)
-# else:
-# pdf.cell(1, 5, txt=linha, ln=1)
-
-# for linha in form:
-#     pdf.multi_cell(h=5.0, align='L', w=0, txt=linha, border=0)
-
-# print("PDF CRIADO")
-
-# pdf.output("anotacoes_conteudo.pdf")
