@@ -7,7 +7,7 @@ import sys
 """Script simples que para cada pasta de um diretório vai até o arquivo
 'anotacoes.txt' e pega o numero da Aula e o assunto dela.
 Espera que dentro de uma pasta existam subpastas, uma para cada aula, com um
-arquivo 'anotacoes.txt' dentro, com o assunto logo em seguida, na mesma linha. 
+arquivo 'anotacoes.txt' dentro, com o assunto logo em seguida, na mesma linha.
 Exemplo:
 'aula 12 vedações'.
 Script busca pela palavra 'aula' dentro do arquivo.
@@ -15,7 +15,7 @@ Salva um arquivo '.txt' na pasta "mãe" (a que foi passada na chamada)
 Executar na pasta da matéria, onde estão as subpastas com as aulas
 
 >>>
-./assuntos_aulas.py/home/thiagorbm/Documents/concursoUnDF/grancursos/legislacaoServidores/ 
+./assuntos_aulas.py/home/thiagorbm/Documents/concursoUnDF/grancursos/legislacaoServidores/
 
 Caso o caminho da pasta "mãe" não seja passado será perguntado:
 'Indique o caminho da pasta em que o script deve criar o sumário de aulas:'
@@ -34,15 +34,19 @@ if os.path.exists(f"{path}/assuntos.txt"):
     print("Arquivo assuntos.txt antigo apagado.")
     os.remove(f"{path}/assuntos.txt")
 
-diretorio = [item for item in os.listdir(path)]
-diretorio.sort()
-#breakpoint()
-#print(diretorio)
-#print()
+
+caminhos = [os.path.join(path, i) for i in os.listdir(path)]
+
+ordem_criacao = [(i, os.path.getctime(i)) for i in caminhos]
+ordem_criacao = sorted(
+    ordem_criacao,
+    key=lambda t: t[1],
+    reverse=False)
+
 
 subdiretorios = []
-for dir_ in diretorio:
-    caminho = os.path.join(path, dir_)
+for dir_ in ordem_criacao:
+    caminho = os.path.join(path, dir_[0])
     if os.path.isfile(caminho):
         continue
     #breakpoint()
