@@ -22,31 +22,14 @@ Caso o caminho da pasta "mãe" não seja passado será perguntado:
 E aí se passa o caminho da pasta onde as subpastas com as aulas estão.
 """
 
-if len(sys.argv[0:]) == 1:
-    path = input(
-        "Indique o caminho da pasta em que o script deve criar o sumário de aulas: "
-    ).strip()
+path = "/home/thiagorbm/Documents/concursos/secretaria_economia/direito_adm"
 
-else:
-    path = sys.argv[1].strip()
-
-if os.path.exists(f"{path}/assuntos.txt"):
-    print("Arquivo assuntos.txt antigo apagado.")
-    os.remove(f"{path}/assuntos.txt")
-
-
-caminhos = [os.path.join(path, i) for i in os.listdir(path)]
-
-ordem_criacao = [(i, os.path.getctime(i)) for i in caminhos]
-ordem_criacao = sorted(
-    ordem_criacao,
-    key=lambda t: t[1],
-    reverse=False)
-
+diretorio = [int(re.search("[0-9]+", item).group(0)) for item in os.listdir(path) if "aula" in item]
+diretorio.sort()
 
 subdiretorios = []
-for dir_ in ordem_criacao:
-    caminho = os.path.join(path, dir_[0])
+for dir_ in diretorio:
+    caminho = os.path.join(path, f"aula{dir_}")
     if os.path.isfile(caminho):
         continue
     #breakpoint()
