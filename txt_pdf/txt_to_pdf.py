@@ -9,7 +9,9 @@ Executar na pasta da matéria, onde estão as subpastas com as aulas.
 #from fpdf import FPDF
 import sys
 import os
-import math
+import re
+
+
 
 if len(sys.argv[0:]) == 1:
     path = input(
@@ -18,35 +20,24 @@ if len(sys.argv[0:]) == 1:
     if path == ".":
         path = os.path.abspath(".")
 
-diretorio = [item for item in os.listdir(path)]
+diretorio = [int(re.search("[0-9]+", item).group(0)) for item in os.listdir(path) if "aula" in item]
 diretorio.sort()
-
-
-#print(diretorio)
 
 arquivos = []
 for d in diretorio:
-    caminho = os.path.join(path, d)
+    caminho = os.path.join(path, f"aula{d}")
+    #breakpoint()
     #print(caminho)
     if os.path.isfile(caminho):
         continue
     arquivo = os.path.join(caminho, "anotacoes.txt")
     arquivos.append(arquivo)
 
-#print(arquivos)
 
-ordem_criacao = [(i, os.path.getctime(i)) for i in arquivos]
-ordem_criacao = sorted(
-    ordem_criacao,
-    key=lambda t: t[1],
-    reverse=False
-)
-
-#breakpoint()
 anotacoes = []
-for arq in ordem_criacao:
+for arq in arquivos:
     anotacoes.append(f"{'*' * 90}\n\n")
-    with open(arq[0]) as txt:
+    with open(arq) as txt:
         for linha in txt:
             anotacoes.append(linha)
             if "aula" in linha.lower():

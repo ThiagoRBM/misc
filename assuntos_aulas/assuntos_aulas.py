@@ -24,6 +24,10 @@ E aí se passa o caminho da pasta onde as subpastas com as aulas estão.
 
 path = "/home/thiagorbm/Documents/concursos/secretaria_economia/direito_adm"
 
+if exists(f"{path}/assuntos.txt"):
+    open(f"{path}/assuntos.txt", 'w').close()
+
+
 diretorio = [int(re.search("[0-9]+", item).group(0)) for item in os.listdir(path) if "aula" in item]
 diretorio.sort()
 
