@@ -22,13 +22,22 @@ Caso o caminho da pasta "mãe" não seja passado será perguntado:
 E aí se passa o caminho da pasta onde as subpastas com as aulas estão.
 """
 
-path = "/home/thiagorbm/Documents/concursos/secretaria_economia/direito_adm"
+# path = "/home/thiagorbm/Documents/concursos/secretaria_economia/direito_adm"
+
+if len(sys.argv[0:]) == 1:
+    path = input(
+        "Indique o caminho da pasta em que o script deve criar o sumário de aulas: "
+    ).strip()
+    if path == ".":
+        path = os.path.abspath(".")
 
 if exists(f"{path}/assuntos.txt"):
     open(f"{path}/assuntos.txt", 'w').close()
 
-
-diretorio = [int(re.search("[0-9]+", item).group(0)) for item in os.listdir(path) if "aula" in item]
+diretorio = [
+    int(re.search("[0-9]+", item).group(0)) for item in os.listdir(path)
+    if "aula" in item
+]
 diretorio.sort()
 
 subdiretorios = []

@@ -6,11 +6,10 @@ arquivo 'anotacoes.txt'.
 Executar na pasta da matéria, onde estão as subpastas com as aulas.
 """
 
-#from fpdf import FPDF
+# from fpdf import FPDF
 import sys
 import os
 import re
-
 
 
 if len(sys.argv[0:]) == 1:
@@ -20,18 +19,21 @@ if len(sys.argv[0:]) == 1:
     if path == ".":
         path = os.path.abspath(".")
 
-diretorio = [int(re.search("[0-9]+", item).group(0)) for item in os.listdir(path) if "aula" in item]
+diretorio = [
+    int(re.search("[0-9]+", item).group(0))
+    for item in os.listdir(path)
+    if "aula" in item
+]
 diretorio.sort()
 
 arquivos = []
 for d in diretorio:
     caminho = os.path.join(path, f"aula{d}")
-    #breakpoint()
-    #print(caminho)
-    if os.path.isfile(caminho):
-        continue
-    arquivo = os.path.join(caminho, "anotacoes.txt")
-    arquivos.append(arquivo)
+    # breakpoint()
+    # print(caminho)
+    if os.path.isdir(caminho):
+        arquivo = os.path.join(caminho, "anotacoes.txt")
+        arquivos.append(arquivo)
 
 
 anotacoes = []
@@ -42,16 +44,16 @@ for arq in arquivos:
             anotacoes.append(linha)
             if "aula" in linha.lower():
                 anotacoes.append("\n\n")
-        #print(aula)
-#breakpoint()
+        # print(aula)
+# breakpoint()
 
 form = []
 with open("anotacoes_conteudo.txt", "w") as arq:
     # cria um arquivo txt e armazena as linhas em uma lista para criar
     # um pdf
     for linha in anotacoes:
-        #print(linha)
-        #arq.write(linha)
+        # print(linha)
+        # arq.write(linha)
         if linha != "\n\n":
             arq.write(linha)
             form.append(linha)
