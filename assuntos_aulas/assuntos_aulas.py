@@ -4,6 +4,7 @@ import os
 from os.path import isfile, exists
 import re
 import sys
+
 """Script simples que para cada pasta de um diretório vai até o arquivo
 'anotacoes.txt' e pega o numero da Aula e o assunto dela.
 Espera que dentro de uma pasta existam subpastas, uma para cada aula, com um
@@ -32,10 +33,11 @@ if len(sys.argv[0:]) == 1:
         path = os.path.abspath(".")
 
 if exists(f"{path}/assuntos.txt"):
-    open(f"{path}/assuntos.txt", 'w').close()
+    open(f"{path}/assuntos.txt", "w").close()
 
 diretorio = [
-    int(re.search("[0-9]+", item).group(0)) for item in os.listdir(path)
+    int(re.search("[0-9]+", item).group(0))
+    for item in os.listdir(path)
     if "aula" in item
 ]
 diretorio.sort()
@@ -43,37 +45,36 @@ diretorio.sort()
 subdiretorios = []
 for dir_ in diretorio:
     caminho = os.path.join(path, f"aula{dir_}")
-    if os.path.isfile(caminho):
-        continue
-    #breakpoint()
-    arquivos = [
-        os.path.join(caminho, item) for item in os.listdir(caminho)
-        if "anotacoes.txt" in item
-    ]
-    #print(arquivos[0])
-    #print(arquivos)
-    for anotacoes in arquivos:
-        conteudo = []
-        aula = re.search("aula[0-9]+", anotacoes).group(0)
-        #print(aula)
-        #breakpoint()
-        with open(anotacoes) as anot:
-            assunto = [
-                linha.strip().lower().split("\n")
-                for linha in anot.readlines()
-                if re.match("aula", linha, re.IGNORECASE)
-            ]
-            try:
-                conteudo.append(assunto[0][0])
-            except IndexError:
-                conteudo.append(aula)
-        #print(conteudo)
-        # conteudo.append([
-        #     linha.strip().lower().split("\n")
-        #     for linha in anot.readlines()
-        #     if re.match("aula", linha, re.IGNORECASE)
-        # ])
-        with open(f"{path}/assuntos.txt", "a") as ass:
-            for item in conteudo:
-                ass.writelines(f"{item}\n")
+    if os.path.isdir(caminho):
+        arquivos = [
+            os.path.join(caminho, item)
+            for item in os.listdir(caminho)
+            if "anotacoes.txt" in item
+        ]
+        # print(arquivos[0])
+        # print(arquivos)
+        for anotacoes in arquivos:
+            conteudo = []
+            aula = re.search("aula[0-9]+", anotacoes).group(0)
+            # print(aula)
+            # breakpoint()
+            with open(anotacoes) as anot:
+                assunto = [
+                    linha.strip().lower().split("\n")
+                    for linha in anot.readlines()
+                    if re.match("aula", linha, re.IGNORECASE)
+                ]
+                try:
+                    conteudo.append(assunto[0][0])
+                except IndexError:
+                    conteudo.append(aula)
+            # print(conteudo)
+            # conteudo.append([
+            #     linha.strip().lower().split("\n")
+            #     for linha in anot.readlines()
+            #     if re.match("aula", linha, re.IGNORECASE)
+            # ])
+            with open(f"{path}/assuntos.txt", "a") as ass:
+                for item in conteudo:
+                    ass.writelines(f"{item}\n")
 print(f"arquivo salvo em {path}")
