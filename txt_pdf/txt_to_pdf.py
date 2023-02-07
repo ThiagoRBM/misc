@@ -48,7 +48,9 @@ for arq in arquivos:
 # breakpoint()
 
 form = []
-with open("anotacoes_conteudo.txt", "w") as arq:
+nome_arquivo = os.path.basename(path)
+
+with open(f"anotacoes_{nome_arquivo}.txt", "w") as arq:
     # cria um arquivo txt e armazena as linhas em uma lista para criar
     # um pdf
     for linha in anotacoes:
