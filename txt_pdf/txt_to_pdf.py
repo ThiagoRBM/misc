@@ -10,6 +10,31 @@ Executar na pasta da matéria, onde estão as subpastas com as aulas.
 import sys
 import os
 import re
+import cv2
+from pytesseract import pytesseract
+from PIL import Image
+import glob
+
+
+def extract_code(path):
+    """Funcao para extrair o codigo do print da aula do grancursos."""
+    imgs = glob.glob(f"{path}/*.png")
+    # breakpoint()
+    img_path = [img for img in imgs if bool(re.search("_1_.png", img))]
+    imagem = cv2.imread(img_path[0])
+
+    gray = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
+    crop = gray[850:, 150:316]
+    thresh = 50
+    maxval = 255
+    im_bin = (crop > thresh) * maxval
+    cv2.imwrite(os.path.join(path, "img.jpg"), im_bin)
+    txt = pytesseract.image_to_string(
+        Image.open(os.path.join(path, "img.jpg"))
+    )
+    codigo = re.search("(?<=\\: ).*?(?=\\))", txt).group(0).strip()
+
+    return codigo
 
 
 if len(sys.argv[0:]) == 1:
@@ -31,6 +56,10 @@ for d in diretorio:
     caminho = os.path.join(path, f"aula{d}")
     # breakpoint()
     # print(caminho)
+    if d == 1:
+        # breakpoint()
+        codigo = extract_code(caminho)
+        # print(codigo)
     if os.path.isdir(caminho):
         arquivo = os.path.join(caminho, "anotacoes.txt")
         arquivos.append(arquivo)
@@ -43,7 +72,7 @@ for arq in arquivos:
         for linha in txt:
             anotacoes.append(linha)
             if "aula" in linha.lower():
-                anotacoes.append("\n\n")
+                anotacoes.append(f"Código da matéria: {codigo}\n\n")
         # print(aula)
 # breakpoint()
 
