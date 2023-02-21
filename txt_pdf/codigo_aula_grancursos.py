@@ -6,6 +6,10 @@ import os
 import glob
 import re
 
+"""Script que fiz para extrair automaticamente o código da aula do grancursos,
+depois inclui como uma função no script txt_to_pdf.py, para incluir já no txt
+o código
+"""
 
 if len(sys.argv[0:]) == 1:
     path = input(
