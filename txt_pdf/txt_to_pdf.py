@@ -19,21 +19,21 @@ import glob
 def extract_code(path):
     """Funcao para extrair o codigo do print da aula do grancursos."""
     imgs = glob.glob(f"{path}/*.png")
-    # breakpoint()
     img_path = [img for img in imgs if bool(re.search("_1_.png", img))]
     imagem = cv2.imread(img_path[0])
+    altura, largura, bandas = imagem.shape
 
     gray = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
-    crop = gray[850:, 150:316]
+    crop = gray[int(altura / 5 * 4) :, : int(largura / 4)]
     thresh = 50
     maxval = 255
     im_bin = (crop > thresh) * maxval
+    # breakpoint()
     cv2.imwrite(os.path.join(path, "img.jpg"), im_bin)
     txt = pytesseract.image_to_string(
         Image.open(os.path.join(path, "img.jpg"))
     )
     codigo = re.search("(?<=\\: ).*?(?=\\))", txt).group(0).strip()
-
     return codigo
 
 
