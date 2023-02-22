@@ -25,7 +25,7 @@ def extract_code(path):
 
     gray = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
     crop = gray[int(altura / 5 * 4) :, : int(largura / 4)]
-    thresh = 50
+    thresh = 40
     maxval = 255
     im_bin = (crop > thresh) * maxval
     # breakpoint()
