@@ -35,7 +35,7 @@ gray = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
 
 crop = gray[850:, 150:316]
 
-thresh = 50
+thresh = 45
 
 im_bool = crop > thresh
 
