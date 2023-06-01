@@ -33,7 +33,13 @@ def extract_code(path):
     txt = pytesseract.image_to_string(
         Image.open(os.path.join(path, "img.jpg"))
     )
-    codigo = re.search("(?<=\\: ).*?(?=\\))", txt).group(0).strip()
+
+    try:
+        codigo = re.search("(?<=\\: ).*?(?=\\))", txt).group(0).strip()
+
+    except AttributeError:
+        codigo = "sem codigo de aula"
+
     return codigo
 
 
