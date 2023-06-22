@@ -74,11 +74,14 @@ for d in diretorio:
 anotacoes = []
 for arq in arquivos:
     anotacoes.append(f"{'*' * 90}\n\n")
-    with open(arq) as txt:
-        for linha in txt:
-            anotacoes.append(linha)
-            if "aula" in linha.lower():
-                anotacoes.append(f"Código da matéria: {codigo}\n\n")
+    try:
+        with open(arq) as txt:
+            for linha in txt:
+                anotacoes.append(linha)
+                if "aula" in linha.lower():
+                    anotacoes.append(f"Código da matéria: {codigo}\n\n")
+    except FileNotFoundError:
+        next
         # print(aula)
 # breakpoint()
 
